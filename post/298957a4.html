@@ -1,0 +1,414 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>你不知道的CSS之包含块 | Zhenduo's Blog</title><meta name="author" content="Li Zhenduo"><meta name="copyright" content="Li Zhenduo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一说到 CSS 盒模型，这是很多小伙伴耳熟能详的知识，甚至有的小伙伴还能说出 border-box 和 content-box 这两种盒模型的区别。 但是一说到 CSS 包含块，有的小伙伴就懵圈了，什么是包含块？好像从来没有听说过这玩意儿。   好吧，如果你对包含块的知识一无所知，那么系好安全带，咱们准备出发了。   包含块英语全称为containing block，实际上平时你在书写 CSS 时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的CSS之包含块">
+<meta property="og:url" content="http://codeman.fun/post/298957a4.html">
+<meta property="og:site_name" content="Zhenduo's Blog">
+<meta property="og:description" content="一说到 CSS 盒模型，这是很多小伙伴耳熟能详的知识，甚至有的小伙伴还能说出 border-box 和 content-box 这两种盒模型的区别。 但是一说到 CSS 包含块，有的小伙伴就懵圈了，什么是包含块？好像从来没有听说过这玩意儿。   好吧，如果你对包含块的知识一无所知，那么系好安全带，咱们准备出发了。   包含块英语全称为containing block，实际上平时你在书写 CSS 时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://codeman.fun/img/avatar.png">
+<meta property="article:published_time" content="2023-03-08T13:11:50.000Z">
+<meta property="article:modified_time" content="2023-03-08T13:23:22.527Z">
+<meta property="article:author" content="Li Zhenduo">
+<meta property="article:tag" content="包含块">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://codeman.fun/img/avatar.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://codeman.fun/post/298957a4.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"本文最后一次更新是在","messageNext":"天前，请注意内容的时效性！"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '你不知道的CSS之包含块',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-03-08 21:23:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"> <link rel="stylesheet" href="/css/color.css"> <link rel="stylesheet" href="/css/modify.css"><meta name="generator" content="Hexo 5.4.2"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Zhenduo's Blog"><span class="site-name">Zhenduo's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">你不知道的CSS之包含块</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-08T13:11:50.000Z" title="发表于 2023-03-08 21:11:50">2023-03-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-08T13:23:22.527Z" title="更新于 2023-03-08 21:23:22">2023-03-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CSS/">CSS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="你不知道的CSS之包含块"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>一说到 CSS 盒模型，这是很多小伙伴耳熟能详的知识，甚至有的小伙伴还能说出 border-box 和 content-box 这两种盒模型的区别。</p>
+<p>但是一说到 CSS 包含块，有的小伙伴就懵圈了，什么是包含块？好像从来没有听说过这玩意儿。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-142005.png" style="zoom: 20%;">
+
+<p>好吧，如果你对包含块的知识一无所知，那么系好安全带，咱们准备出发了。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-060434.png" style="zoom:50%;">
+
+<p>包含块英语全称为<strong>containing block</strong>，实际上平时你在书写 CSS 时，大多数情况下你是感受不到它的存在，因此你不知道这个知识点也是一件很正常的事情。但是这玩意儿是确确实实存在的，在 CSS 规范中也是明确书写了的：</p>
+<p><em><a target="_blank" rel="noopener" href="https://drafts.csswg.org/css2/#containing-block-details">https://drafts.csswg.org/css2/#containing-block-details</a></em></p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-142459.png" style="zoom:50%;">
+
+<p>并且，如果你不了解它的运作机制，有时就会出现一些你认为的莫名其妙的现象。</p>
+<p>那么，这个包含块究竟说了什么内容呢？</p>
+<p>说起来也简单，<strong>就是元素的尺寸和位置，会受它的包含块所影响。对于一些属性，例如 width, height, padding, margin，绝对定位元素的偏移值（比如 position 被设置为 absolute 或 fixed），当我们对其赋予百分比值时，这些值的计算值，就是通过元素的包含块计算得来。</strong></p>
+<p>来吧，少年，让我们从最简单的 case 开始看。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-143153.png" style="zoom: 50%;">
+
+<figure class="highlight html"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span>{</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">500px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: skyblue;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.item</span>{</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>请仔细阅读上面的代码，然后你认为 div.item 这个盒子的宽高是多少？</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-143451.png" style="zoom: 33%;">
+
+<p>相信你能够很自信的回答这个简单的问题，div.item 盒子的 width 为 250px，height 为 150px。</p>
+<p>这个答案确实是没有问题的，但是如果我追问你是怎么得到这个答案的，我猜不了解包含块的你大概率会说，因为它的父元素 div.container 的 width 为 500px，50% 就是 250px，height 为 300px，因此 50% 就是 150px。</p>
+<p>这个答案实际上是不准确的。正确的答案应该是，<strong>div.item 的宽高是根据它的包含块来计算的</strong>，而这里包含块的大小，正是这个元素最近的祖先块元素的内容区。</p>
+<p>因此正如我前面所说，<strong>很多时候你都感受不到包含块的存在。</strong></p>
+<p>包含块分为两种，一种是根元素（HTML 元素）所在的包含块，被称之为初始包含块（<strong>initial containing block</strong>）。对于浏览器而言，初始包含块的的大小等于视口 viewport 的大小，基点在画布的原点（视口左上角）。它是作为元素绝对定位和固定定位的参照物。</p>
+<p>另外一种是对于非根元素，对于非根元素的包含块判定就有几种不同的情况了。大致可以分为如下几种：</p>
+<ul>
+<li>如果元素的 positiion 是 relative 或 static ，那么包含块由离它最近的块容器（block container）的内容区域（content area）的边缘建立。</li>
+<li>如果 position 属性是 fixed，那么包含块由视口建立。</li>
+<li>如果元素使用了 absolute 定位，则包含块由它的最近的 position 的值不是 static （也就是值为fixed、absolute、relative 或 sticky）的祖先元素的内边距区的边缘组成。</li>
+</ul>
+<p>前面两条实际上都还比较好理解，第三条往往是初学者容易比较忽视的，我们来看一个示例：</p>
+<figure class="highlight html"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> {</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">500px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: skyblue;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.item</span> {</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">100px</span>;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.item2</span> {</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">10px</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>首先阅读上面的代码，然后你能在脑海里面想出其大致的样子么？或者用笔和纸画一下也行。</p>
+<p>公布正确答案：</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-153548.png" style="zoom: 33%;">
+
+<p>怎么样？有没有和你所想象的对上？</p>
+<p>其实原因也非常简单，根据上面的第三条规则，对于 div.item2 来讲，它的包含块应该是 div.container，而非 div.item。</p>
+<p>如果你能把上面非根元素的包含块判定规则掌握，那么关于包含块的知识你就已经掌握 80% 了。</p>
+<p>实际上对于非根元素来讲，包含块还有一种可能，那就是如果 position 属性是 absolute 或 fixed，包含块也可能是由满足以下条件的最近父级元素的内边距区的边缘组成的：</p>
+<ul>
+<li>transform 或 perspective 的值不是 none</li>
+<li>will-change 的值是 transform 或 perspective </li>
+<li>filter 的值不是 none 或 will-change 的值是 filter(只在 Firefox 下生效). </li>
+<li>contain 的值是 paint (例如: contain: paint;)</li>
+</ul>
+<p>我们还是来看一个示例：</p>
+<figure class="highlight html"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> {</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">500px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: skyblue;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.item</span> {</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">0deg</span>); <span class="comment">/* 新增代码 */</span></span><br><span class="line">}</span><br><span class="line"><span class="selector-class">.item2</span> {</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">10px</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们对于上面的代码只新增了一条声明，那就是 transform: rotate(0deg)，此时的渲染效果却发生了改变，如下图所示：</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-154347.png" style="zoom:33%;">
+
+<p>可以看到，此时对于 div.item2 来讲，包含块就变成了 div.item。</p>
+<p>好了，到这里，关于包含块的知识就基本讲完了。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-154655.png" style="zoom:33%;">
+
+<p>我们再把 CSS 规范中所举的例子来看一下。</p>
+<figure class="highlight html"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Illustration of containing blocks<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">id</span>=<span class="string">"body"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"p1"</span>&gt;</span>This is text in the first paragraph...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"p2"</span>&gt;</span></span><br><span class="line">        This is text</span><br><span class="line">        <span class="tag">&lt;<span class="name">em</span> <span class="attr">id</span>=<span class="string">"em1"</span>&gt;</span></span><br><span class="line">          in the</span><br><span class="line">          <span class="tag">&lt;<span class="name">strong</span> <span class="attr">id</span>=<span class="string">"strong1"</span>&gt;</span>second<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></span><br><span class="line">          paragraph.</span><br><span class="line">        <span class="tag">&lt;/<span class="name">em</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>上面是一段简单的 HTML 代码，在没有添加任何 CSS 代码的情况下，你能说出各自的包含块么？</p>
+<p>对应的结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>包含块</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>html</td>
+<td>initial C.B. (UA-dependent)</td>
+</tr>
+<tr>
+<td>body</td>
+<td>html</td>
+</tr>
+<tr>
+<td>div1</td>
+<td>body</td>
+</tr>
+<tr>
+<td>p1</td>
+<td>div1</td>
+</tr>
+<tr>
+<td>p2</td>
+<td>div1</td>
+</tr>
+<tr>
+<td>em1</td>
+<td>p2</td>
+</tr>
+<tr>
+<td>strong1</td>
+<td>p2</td>
+</tr>
+</tbody></table>
+<p>首先 HTML 作为根元素，对应的包含块就是前面我们所说的初始包含块，而对于 body 而言，这是一个 static 定位的元素，因此该元素的包含块参照第一条为 html，以此类推 div1、p1、p2 以及 em1 的包含块也都是它们的父元素。</p>
+<p>不过 strong1 比较例外，它的包含块确实 p2，而非 em1。为什么会这样？建议你再把非根元素的第一条规则读一下：</p>
+<ul>
+<li>如果元素的 positiion 是 relative 或 static ，那么包含块由离它最近的<strong>块容器（block container）</strong>的内容区域（content area）的边缘建立。</li>
+</ul>
+<p>没错，因为 em1 不是块容器，而包含块是<strong>离它最近的块容器</strong>的内容区域，所以是 p2。</p>
+<p>接下来添加如下的 CSS：</p>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-id">#div1</span> { </span><br><span class="line">  <span class="attribute">position</span>: absolute; </span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50px</span>; <span class="attribute">top</span>: <span class="number">50px</span> </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>上面的代码我们对 div1 进行了定位，那么此时的包含块会发生变化么？你可以先在自己思考一下。</p>
+<p>答案如下：</p>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>包含块</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>html</td>
+<td>initial C.B. (UA-dependent)</td>
+</tr>
+<tr>
+<td>body</td>
+<td>html</td>
+</tr>
+<tr>
+<td>div1</td>
+<td>initial C.B. (UA-dependent)</td>
+</tr>
+<tr>
+<td>p1</td>
+<td>div1</td>
+</tr>
+<tr>
+<td>p2</td>
+<td>div1</td>
+</tr>
+<tr>
+<td>em1</td>
+<td>p2</td>
+</tr>
+<tr>
+<td>strong1</td>
+<td>p2</td>
+</tr>
+</tbody></table>
+<p>可以看到，这里 div1 的包含块就发生了变化，变为了初始包含块。这里你可以参考前文中的这两句话：</p>
+<ul>
+<li>初始包含块（<strong>initial containing block</strong>）。对于浏览器而言，初始包含块的的大小等于视口 viewport 的大小，基点在画布的原点（视口左上角）。它是作为元素绝对定位和固定定位的参照物。</li>
+<li>如果元素使用了 absolute 定位，则包含块由它的最近的 position 的值不是 static （也就是值为fixed、absolute、relative 或 sticky）的祖先元素的内边距区的边缘组成。</li>
+</ul>
+<p>是不是一下子就理解了。没错，因为我们对 div1 进行了定位，因此它会应用非根元素包含块计算规则的第三条规则，寻找离它最近的  position 的值不是 static 的祖先元素，不过显然 body 的定位方式为 static，因此 div1 的包含块最终就变成了初始包含块。</p>
+<p>接下来我们继续修改我们的 CSS：</p>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-id">#div1</span> { </span><br><span class="line">  <span class="attribute">position</span>: absolute; </span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50px</span>; </span><br><span class="line">  <span class="attribute">top</span>: <span class="number">50px</span> </span><br><span class="line">}</span><br><span class="line"><span class="selector-id">#em1</span>  { </span><br><span class="line">  <span class="attribute">position</span>: absolute; </span><br><span class="line">  <span class="attribute">left</span>: <span class="number">100px</span>; </span><br><span class="line">  <span class="attribute">top</span>: <span class="number">100px</span> </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里我们对 em1 同样进行了 absolute 绝对定位，你想一想会有什么样的变化？</p>
+<p>没错，聪明的你大概应该知道，em1 的包含块不再是 p2，而变成了 div1，而 strong1 的包含块也不再是 p2 了，而是变成了 em1。</p>
+<p>如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>包含块</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>html</td>
+<td>initial C.B. (UA-dependent)</td>
+</tr>
+<tr>
+<td>body</td>
+<td>html</td>
+</tr>
+<tr>
+<td>div1</td>
+<td>initial C.B. (UA-dependent)</td>
+</tr>
+<tr>
+<td>p1</td>
+<td>div1</td>
+</tr>
+<tr>
+<td>p2</td>
+<td>div1</td>
+</tr>
+<tr>
+<td>em1</td>
+<td>div1（因为定位了，参阅非根元素包含块确定规则的第三条）</td>
+</tr>
+<tr>
+<td>strong1</td>
+<td>em1（因为 em1 变为了块容器，参阅非根元素包含块确定规则的第一条）</td>
+</tr>
+</tbody></table>
+<p>好了，这就是 CSS 规范中所举的例子。如果你全都能看明白，以后你还能跟别人说你是看过这一块知识对应的 CSS 规范的人。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-15-013519.png" style="zoom:33%;">
+
+<p>另外，关于包含块的知识，在 MDN 上除了解说了什么是包含块以外，也举出了很多简单易懂的示例。</p>
+<p>具体你可以移步到：<em><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Containing_block">https://developer.mozilla.org/zh-CN/docs/Web/CSS/Containing_block</a></em></p>
+<p>好了，这就是有关包含块的所有内容了，你学会了么？-）</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://codeman.fun">Li Zhenduo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://codeman.fun/post/298957a4.html">http://codeman.fun/post/298957a4.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://codeman.fun" target="_blank">Zhenduo's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8C%85%E5%90%AB%E5%9D%97/">包含块</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/a074b2a4.html" title="浏览器渲染原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">浏览器渲染原理</div></div></a></div><div class="next-post pull-right"><a href="/post/711dcc9f.html" title="CSS属性计算过程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CSS属性计算过程</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">Li Zhenduo</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">生命是独立是自由是爱与和平！<div class="xpand" style="height:200px;"><canvas class="illo" width="800" height="800" style="max-width: 200px; max-height: 200px; touch-action: none; width: 640px; height: 640px;"></canvas></div></div></div><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople1.js"></script><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/zdog.dist.js"></script><script id="rendered-js" src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople.js"></script><style>.card-widget.card-announcement {
+margin: 0;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+canvas {
+display: block;
+margin: 0 auto;
+cursor: move;
+}</style><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/711dcc9f.html" title="CSS属性计算过程">CSS属性计算过程</a><time datetime="2023-03-08T13:18:18.000Z" title="发表于 2023-03-08 21:18:18">2023-03-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/298957a4.html" title="你不知道的CSS之包含块">你不知道的CSS之包含块</a><time datetime="2023-03-08T13:11:50.000Z" title="发表于 2023-03-08 21:11:50">2023-03-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/a074b2a4.html" title="浏览器渲染原理">浏览器渲染原理</a><time datetime="2023-03-05T09:35:23.000Z" title="发表于 2023-03-05 17:35:23">2023-03-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/d775f5bd.html" title="事件循环详解">事件循环详解</a><time datetime="2023-03-05T09:00:37.000Z" title="发表于 2023-03-05 17:00:37">2023-03-05</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2020 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> Li Zhenduo</div><div class="footer_custom_text">I wish you to become your own sun, no need to rely on who's light.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://cloud.tencent.com/"><img src="https://img.shields.io/badge/CDN-腾讯云-006eff?style=flat&amp;logo=iCloud" title="本站使用腾讯云为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script>window.$crisp = [];
+window.CRISP_WEBSITE_ID = "9a218763-39f1-40be-a24e-17a1f7192e40";
+(function () {
+  d = document;
+  s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.getElementsByTagName("head")[0].appendChild(s);
+})();
+$crisp.push(["safe", true])
+
+if (true) {
+  $crisp.push(["do", "chat:hide"])
+  $crisp.push(["on", "chat:closed", function() {
+    $crisp.push(["do", "chat:hide"])
+  }])
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      $crisp.push(["do", "chat:show"])
+      $crisp.push(["do", "chat:open"])
+
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      $crisp.push(["do", "chat:hide"])
+    }
+    function chatBtnShow () {
+      $crisp.push(["do", "chat:show"])
+    }
+  }
+}</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
