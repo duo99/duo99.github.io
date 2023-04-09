@@ -91,11 +91,11 @@ h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
 
 ::-webkit-scrollbar-track {
     border-radius: 2em;
-    background-color: rgba(73, 177, 245, .2);
+    background-color: rgba(222, 236, 249, .2);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #6db0e0;
+    background-color: #2b88d8;
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
     border-radius: 2em
 }
